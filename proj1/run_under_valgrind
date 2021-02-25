@@ -1,0 +1,81 @@
+Script started on Thu 13 Sep 2018 09:10:26 AM EDT
+[cisc361:/usa/cshen/361/Proj_1a/proj_1a 976] valgrind ./mp3
+==3701== Memcheck, a memory error detector
+==3701== Copyright (C) 2002-2015, and GNU GPL'd, by Julian Seward et al.
+==3701== Using Valgrind-3.11.0 and LibVEX; rerun with -h for copyright info
+==3701== Command: ./mp3
+==3701== 
+
+List Operations
+===============
+(1) Insert
+(2) Display
+(3) Delete
+(4) Exit
+Enter your choice : 1
+Enter the name to insert : aaa
+Enter the number to insert : 1
+[aaa] [1]
+
+List Operations
+===============
+(1) Insert
+(2) Display
+(3) Delete
+(4) Exit
+Enter your choice : 1
+Enter the name to insert : bbb
+Enter the number to insert : 2
+[bbb] [2]
+
+List Operations
+===============
+(1) Insert
+(2) Display
+(3) Delete
+(4) Exit
+Enter your choice : 1
+Enter the name to insert : ccc
+Enter the number to insert : 3
+[ccc] [3]
+
+List Operations
+===============
+(1) Insert
+(2) Display
+(3) Delete
+(4) Exit
+Enter your choice : 2
+(1)--aaa--1--
+(2)--bbb--2--
+(3)--ccc--3--
+
+List Operations
+===============
+(1) Insert
+(2) Display
+(3) Delete
+(4) Exit
+Enter your choice : 3
+delete function has not been implemented...
+
+List Operations
+===============
+(1) Insert
+(2) Display
+(3) Delete
+(4) Exit
+Enter your choice : 4
+free 3 MP3 records...
+==3701== 
+==3701== HEAP SUMMARY:
+==3701==     in use at exit: 0 bytes in 0 blocks
+==3701==   total heap usage: 8 allocs, 8 frees, 2,132 bytes allocated
+==3701== 
+==3701== All heap blocks were freed -- no leaks are possible
+==3701== 
+==3701== For counts of detected and suppressed errors, rerun with: -v
+==3701== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+[cisc361:/usa/cshen/361/Proj_1a/proj_1a 977] exit
+
+Script done on Thu 13 Sep 2018 09:11:09 AM EDT
