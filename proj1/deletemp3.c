@@ -14,7 +14,7 @@ if(temp->name == name){ //if head deleted
 	continue;
 }
 
-while(temp->name != name && temp!=NULL){ // this goes to the next mp3
+while(temp->name != name && temp!=NULL){ // this goes to the next mp3 than requested
     temp->prev=temp;
     temp=temp->next;
 }
