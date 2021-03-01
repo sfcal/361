@@ -11,6 +11,7 @@ void freeList()
     temp = head;
     head = head->next; // point to next MP3 record
     free(temp->name);  // first free name inside MP3 record
+    free(temp->title);  // first free name inside MP3 record
     free(temp);        // then free MP3 record
     i++;
   }

@@ -7,16 +7,17 @@
 
 node_t *head;
 
-void insert(char *name, int data);
+void insert(char *name, char *title, int data);
 void print();
 void freeList();
 void delete (char *name);
 
 int main()
 {
-  int i, num, len;
+  int i, num, len, len2;
   struct node *n;
   char buffer[BUFFERSIZE], c;
+  char title[BUFFERSIZE], d;
 
   head = NULL;
 
@@ -50,10 +51,23 @@ int main()
           printf("wrong name...");
           exit(-1);
         }
+
+        printf("Enter the title to insert: ");
+        if (fgets(title, BUFFERSIZE, stdin) != NULL)
+        {
+          len2 = strlen(title);
+          title[len2 - 1] = '\0'; // override \n to become \0
+        }
+        else
+        {
+          printf("wrong title...");
+          exit(-1);
+        }
+
         printf("Enter the number to insert : ");
         scanf("%d%c", &num, &c); // use c to capture \n
-        printf("[%s] [%d]\n", buffer, num);
-        insert(buffer, num);
+        printf("[%s] [%s] [%d]\n",buffer, title, num);
+        insert(buffer, title, num);
         break;
       case 2:
         if (head == NULL)

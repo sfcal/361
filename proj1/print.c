@@ -10,7 +10,7 @@ void print()
   temp = head;
 
   while (temp != NULL) {
-    printf("(%d)--%s--%d--\n", ++i, temp->name, temp->data);
+    printf("(%d)--%s--%s--%d--\n", ++i, temp->name, temp->title, temp->data);
     temp = temp->next;
   }
 }

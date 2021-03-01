@@ -31,6 +31,7 @@ void delete (char *Name)
                 temp = head;
                 head = head->next; // point to next MP3 record
                 free(temp->name);  // first free name inside MP3 record
+                free(temp->title);  // first free name inside MP3 record
                 free(temp);        // then free MP3 record
                 i++;
             }
@@ -40,6 +41,7 @@ void delete (char *Name)
             head = temp->next;
             head->prev = NULL;
             free(temp->name);
+            free(temp->title);
             free(temp);
         }
         else if (temp->next != NULL) // case for if you try to delete not at the end of the list
@@ -49,6 +51,7 @@ void delete (char *Name)
             beforeMp3->next = afterMp3;
             afterMp3->prev = beforeMp3;
             free(temp->name);
+            free(temp->title);
             free(temp);
         }
         else // case if you delete a node at the end of the list
@@ -56,6 +59,7 @@ void delete (char *Name)
             node_t *beforeMp3 = temp->prev; // get previous node
             beforeMp3->next = NULL;
             free(temp->name);
+            free(temp->title);
             free(temp);
         }
     }
