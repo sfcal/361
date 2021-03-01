@@ -14,11 +14,16 @@ void delete (char *Name)
         temp = head;
         while (strcmp(temp->name, Name) != 0 && temp != NULL)
         {
-            temp = temp->next;
+            if (temp->next != NULL)
+            {
+                temp = temp->next;
+            }else{
+                printf("\nName is not in list\n");
+                exit(0);
+            }
         }
         if (temp == head && temp->next == NULL)
         { // if only mp3 in the list
-            node_t *temp;
             int i = 0;
 
             while (head != NULL)
