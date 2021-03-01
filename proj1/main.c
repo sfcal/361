@@ -26,9 +26,10 @@ int main()
     printf("\nList Operations\n");
     printf("===============\n");
     printf("(1) Insert\n");
-    printf("(2) Display\n");
-    printf("(3) Delete\n");
-    printf("(4) Exit\n");
+    printf("(2) Delete\n");
+    printf("(3) Display (Beginning to End)\n");
+    printf("(4) Display (End to Beginning)\n");
+    printf("(5) Exit\n");
     printf("Enter your choice : ");
     if (scanf("%d%c", &i, &c) <= 0)
     { // use c to capture \n
@@ -70,12 +71,6 @@ int main()
         insert(buffer, title, num);
         break;
       case 2:
-        if (head == NULL)
-          printf("List is Empty\n");
-        else
-          print();
-        break;
-      case 3:
         printf("Enter the name to delete : ");
         if (fgets(buffer, BUFFERSIZE, stdin) != NULL)
         {
@@ -89,8 +84,19 @@ int main()
         }
         delete(buffer);
         break;
-
+      case 3:
+        if (head == NULL)
+          printf("List is Empty\n");
+        else
+          print(1);
+        break;
       case 4:
+        if (head == NULL)
+          printf("List is Empty\n");
+        else
+          print(0);
+        break;
+      case 5:
         freeList();
         return 0;
       default:
