@@ -8,9 +8,10 @@
 #include <sys/wait.h>
 #include "sh.h"
 
+char prompt[64] = {'>', '>'};
 void sig_handler(int sig)
 {
-	fprintf(stdout, "\n>> ");
+	fprintf(stdout, "\n%s ", prompt);
 	fflush(stdout);
 }
 
@@ -19,13 +20,14 @@ int main(int argc, char **argv, char **envp)
 	char buf[MAXLINE];
 	char *arg[MAXARGS]; // an array of tokens
 	char *ptr;
+	char *tmpDir;
 	char *pch;
 	pid_t pid;
 	int status, i, arg_no;
 
 	signal(SIGINT, sig_handler);
 
-	fprintf(stdout, ">> "); /* print prompt (printf requires %% to print %) */
+	fprintf(stdout, "%s ", prompt); /* print prompt (printf requires %% to print %) */
 	fflush(stdout);
 	while (fgets(buf, MAXLINE, stdin) != NULL)
 	{
@@ -145,7 +147,7 @@ int main(int argc, char **argv, char **envp)
 				free(tmp);
 			}
 		}
-		else if (strcmp(arg[0], "list") == 0)
+		else if (strcmp(arg[0], "list") == 0 || strcmp(arg[0], "ls") == 0)
 		{ // command to list files (might need to double check this)
 			printf("Executing built-in [list]\n");
 			DIR *directory;
@@ -172,7 +174,7 @@ int main(int argc, char **argv, char **envp)
 					directory = opendir(arg[i]);
 					if (directory != NULL)
 					{
-						printf("%s:\n",arg[i]);
+						printf("%s:\n", arg[i]);
 						while (file = readdir(directory))
 						{
 							printf("%s\n", file->d_name);
@@ -180,17 +182,102 @@ int main(int argc, char **argv, char **envp)
 						printf("\n");
 						closedir(directory);
 					}
-					i+=1;
+					i += 1;
 				}
 			}
-		}else if (strcmp(arg[0], "pid") == 0){
-
-
 		}
 		else if (strcmp(arg[0], "cd") == 0)
 		{
 			printf("Executing built-in [cd]\n");
-			chdir(arg[1]);
+			tmpDir = getcwd(NULL, 0);
+			 char * temp;
+			 memcpy(temp, arg[1], 5);
+			if (arg[1] != NULL && (char *)temp == "-")
+			{
+				chdir(tmpDir);
+			}
+			else
+			{
+				chdir(arg[1]);
+			}
+		}
+		else if (strcmp(arg[0], "pid") == 0)
+		{
+			printf("Executing built-in [pid]\n");
+			printf("shell pid: %u\n", getpid());
+		}
+		else if (strcmp(arg[0], "kill") == 0)
+		{ // need to finish
+			printf("Executing built-in [kill]\n");
+			printf("shell pid: %u\n", getpid());
+			char temp;
+			memcpy(temp, arg[1], 1);
+			printf("temp: %c", temp);
+			if (arg[1] != NULL && (char *)temp == "-")
+			{
+				printf("flag\n");
+			}
+			else if (arg[1] != NULL)
+			{
+				printf("no flag\n");
+			}
+		}
+		else if (strcmp(arg[0], "prompt") == 0)
+		{
+			printf("Executing built-in [prompt]\n");
+			if (arg[1] != NULL)
+			{
+				strcpy(prompt, arg[1]);
+			}
+			else
+			{
+				printf("input prompt prefix: ");
+				fgets(prompt, 64, stdin);
+				prompt[strcspn(prompt, "\n")] = 0;
+			}
+		}
+		else if (strcmp(arg[0], "printenv") == 0) // double check the error message
+		{
+			printf("Executing built-in [printenv]\n");
+			if (arg[1] == NULL)
+			{
+				i = 0;
+				while (envp[i] != NULL)
+				{
+					printf("%s\n", envp[i]);
+					i += 1;
+				}
+			}
+			else if (arg[1] != NULL && arg[2] == NULL)
+			{
+				char *tmp;
+				char *tmp2;
+				strcpy(tmp2, arg[1]);
+				i = 0;
+				while (envp[i] != NULL)
+				{
+					tmp = strtok(tmp2, "=");
+					if (strcmp(tmp, arg[1]) == 0)
+					{
+						printf("%s\n", envp[i]);
+					}
+					i += 1;
+				}
+			}
+			else if (arg[1] != NULL && arg[2] != NULL)
+			{
+				i = 0;
+				while (envp[i] != NULL)
+				{
+					printf("%s\n", envp[i]);
+					i += 1;
+				}
+			}
+		}
+		else if (strcmp(arg[0], "setenv") == 0)
+		{
+			printf("Executing built-in [setenv]\n");
+			setenv(arg[1], arg[2], arg[3]);
 		}
 		else
 		{ // external command
@@ -246,7 +333,7 @@ int main(int argc, char **argv, char **envp)
 		}
 
 	nextprompt:
-		fprintf(stdout, ">> ");
+		fprintf(stdout, "%s ", prompt);
 		fflush(stdout);
 	}
 	exit(0);
