@@ -1,6 +1,6 @@
 #include "get_path.h"
 
-char *which(char *command, struct pathelement *p)
+char * which(char *command, struct pathelement *p)
 {
   char cmd[64], *ch;
   int  found;
@@ -8,6 +8,7 @@ char *which(char *command, struct pathelement *p)
   found = 0;
   while (p) {       
     sprintf(cmd, "%s/%s", p->element, command);
+    printf("--- %s\n",p->element); 
     if (access(cmd, X_OK) == 0) {
       found = 1;
       break;

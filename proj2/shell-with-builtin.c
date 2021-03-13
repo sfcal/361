@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <signal.h>
-#include <dirent.h> 
+#include <dirent.h>
 #include <glob.h>
 #include <sys/wait.h>
 #include "sh.h"
@@ -53,17 +53,59 @@ int main(int argc, char **argv, char **envp)
 		  printf("arg[%d] = %s\n", i, arg[i]);
                 */
 
-		if(strcmp(arg[0], "exit") == 0){
+		if (strcmp(arg[0], "exit") == 0)
+		{
 			printf("Executing built-in [exit]\n");
 			exit(0);
-		}else if (strcmp(arg[0], "pwd") == 0)
+		}
+		else if (strcmp(arg[0], "pwd") == 0)
 		{ // built-in command pwd
 			printf("Executing built-in [pwd]\n");
 			ptr = getcwd(NULL, 0);
 			printf("%s\n", ptr);
 			free(ptr);
 		}
-		else if (strcmp(arg[0], "which") == 0) 
+		else if (strcmp(arg[0], "where") == 0) // need to finish
+		{
+			struct pathelement *p, *tmp;
+			char *cmd;
+
+			printf("Executing built-in [where]\n");
+
+			if (arg[1] == NULL)
+			{ // "empty" which
+				printf("which: Too few arguments.\n");
+				goto nextprompt;
+			}
+
+			p = get_path();
+			/***/
+			tmp = p;
+			while (tmp)
+			{ // print list of paths
+				printf("path [%s]\n", tmp->element);
+				tmp = tmp->next;
+			}
+			/***/
+
+			cmd = where(arg[1], p);
+			if (cmd)
+			{
+				printf("%s\n", cmd);
+				free(cmd);
+			}
+			else // argument not found
+				printf("%s: Command not found\n", arg[1]);
+
+			while (p)
+			{ // free list of path values
+				tmp = p;
+				p = p->next;
+				free(tmp->element);
+				free(tmp);
+			}
+		}
+		else if (strcmp(arg[0], "which") == 0)
 		{ // built-in command which
 			struct pathelement *p, *tmp;
 			char *cmd;
@@ -102,20 +144,53 @@ int main(int argc, char **argv, char **envp)
 				free(tmp->element);
 				free(tmp);
 			}
-		}else if(strcmp(arg[0], "list") == 0){ // command to list files (might need to double check this)
+		}
+		else if (strcmp(arg[0], "list") == 0)
+		{ // command to list files (might need to double check this)
 			printf("Executing built-in [list]\n");
 			DIR *directory;
 			struct dirent *file;
-			directory = opendir(getcwd(NULL, 0));
-
-			if(directory != NULL){
-				while(file = readdir(directory)){
-					printf("%s\n",file->d_name);
+			//directory = opendir(getcwd(NULL, 0));
+			if (arg[1] == NULL)
+			{
+				directory = opendir(getcwd(NULL, 0));
+				if (directory != NULL)
+				{
+					while (file = readdir(directory))
+					{
+						printf("%s\n", file->d_name);
+					}
+					printf("\n");
+					closedir(directory);
 				}
-				printf("\n");
-				closedir(directory);
-
 			}
+			else
+			{
+				int i = 1;
+				while (arg[i] != NULL)
+				{
+					directory = opendir(arg[i]);
+					if (directory != NULL)
+					{
+						printf("%s:\n",arg[i]);
+						while (file = readdir(directory))
+						{
+							printf("%s\n", file->d_name);
+						}
+						printf("\n");
+						closedir(directory);
+					}
+					i+=1;
+				}
+			}
+		}else if (strcmp(arg[0], "pid") == 0){
+
+
+		}
+		else if (strcmp(arg[0], "cd") == 0)
+		{
+			printf("Executing built-in [cd]\n");
+			chdir(arg[1]);
 		}
 		else
 		{ // external command
@@ -124,7 +199,7 @@ int main(int argc, char **argv, char **envp)
 				printf("fork error");
 			}
 			else if (pid == 0)
-			{	/* child */
+			{ /* child */
 				// an array of aguments for execve()
 				char *execargs[MAXARGS];
 				glob_t paths;
