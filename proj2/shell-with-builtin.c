@@ -147,7 +147,7 @@ int main(int argc, char **argv, char **envp)
 				free(tmp);
 			}
 		}
-		else if (strcmp(arg[0], "list") == 0 || strcmp(arg[0], "ls") == 0)
+		else if (strcmp(arg[0], "list") == 0)
 		{ // command to list files (might need to double check this)
 			printf("Executing built-in [list]\n");
 			DIR *directory;
@@ -192,7 +192,7 @@ int main(int argc, char **argv, char **envp)
 			tmpDir = getcwd(NULL, 0);
 			 char * temp;
 			 memcpy(temp, arg[1], 5);
-			if (arg[1] != NULL && (char *)temp == "-")
+			if (arg[1] != NULL && (char *)temp == '-')
 			{
 				chdir(tmpDir);
 			}
@@ -213,7 +213,7 @@ int main(int argc, char **argv, char **envp)
 			char temp;
 			memcpy(temp, arg[1], 1);
 			printf("temp: %c", temp);
-			if (arg[1] != NULL && (char *)temp == "-")
+			if (arg[1] != NULL && arg[1][0]== '-')
 			{
 				printf("flag\n");
 			}
@@ -290,11 +290,19 @@ int main(int argc, char **argv, char **envp)
 				// an array of aguments for execve()
 				char *execargs[MAXARGS];
 				glob_t paths;
+				struct pathelement *path;
 				int csource, j;
 				char **p;
+				path = get_path();
+                execargs[j] = malloc(strlen(arg[0]) + 1);
 
-				execargs[j] = malloc(strlen(arg[0]) + 1);
-				strcpy(execargs[0], arg[0]); // copy command
+				//if(which(arg[0], path)==NULL)
+				 //   printf("%s: command not found\n", arg[0]);
+				  //  fflush(stdout);
+
+				arg[0][0]=='/' ? strcpy(execargs[0], arg[0]):
+				        strcpy(execargs[0], which(arg[0], path)); // full path or not
+
 				j = 1;
 				for (i = 1; i < arg_no; i++) // check arguments
 					if (strchr(arg[i], '*') != NULL)
@@ -312,6 +320,13 @@ int main(int argc, char **argv, char **envp)
 							globfree(&paths);
 						}
 					}
+
+				else if(arg[i][0]=='-')
+				    execargs[j++]=arg[i];
+
+				else if(arg[i]!=NULL)
+				    execargs[j++]=arg[i];
+
 				execargs[j] = NULL;
 
 				i = 0;
