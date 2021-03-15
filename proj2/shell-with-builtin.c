@@ -13,6 +13,10 @@ void sig_handler(int sig)
 {
 	fprintf(stdout, "\n%s ", prompt);
 	fflush(stdout);
+//	switch(){
+//
+//	}
+
 }
 
 int main(int argc, char **argv, char **envp) {
@@ -23,14 +27,15 @@ int main(int argc, char **argv, char **envp) {
     char *pch;
     pid_t pid;
     int status, i, arg_no;
+    char *eofStatus;
 
     signal(SIGINT, sig_handler);
-    signal(SIGTSTP, SIG_IGN); // for CTRL-Z
-    signal(SIGTERM, SIG_IGN);
+    //signal(SIGTSTP, SIG_IGN); // for CTRL-Z
+    //signal(SIGTERM, SIG_IGN);
 
     fprintf(stdout, "%s ", prompt); /* print prompt (printf requires %% to print %) */
     fflush(stdout);
-    while (fgets(buf, MAXLINE, stdin) != NULL) {
+    while ((eofStatus = fgets(buf, MAXLINE, stdin)) != NULL) {
         if (strlen(buf) == 1 && buf[strlen(buf) - 1] == '\n')
             goto nextprompt; // "empty" command line
 
@@ -57,12 +62,14 @@ int main(int argc, char **argv, char **envp) {
         if (strcmp(arg[0], "exit") == 0) {
             printf("Executing built-in [exit]\n");
             exit(0);
-        } else if (strcmp(arg[0], "pwd") == 0) { // built-in command pwd
+        }
+        else if (strcmp(arg[0], "pwd") == 0) { // built-in command pwd
             printf("Executing built-in [pwd]\n");
             ptr = getcwd(NULL, 0);
             printf("%s\n", ptr);
             free(ptr);
-        } else if (strcmp(arg[0], "where") == 0) // TODO
+        }
+        else if (strcmp(arg[0], "where") == 0) // TODO
         {
             struct pathelement *p, *tmp;
             char *cmd;
@@ -96,7 +103,8 @@ int main(int argc, char **argv, char **envp) {
                 free(tmp->element);
                 free(tmp);
             }
-        } else if (strcmp(arg[0], "which") == 0) { // built-in command which
+        }
+        else if (strcmp(arg[0], "which") == 0) { // built-in command which
             struct pathelement *p, *tmp;
             char *cmd;
 
@@ -129,7 +137,8 @@ int main(int argc, char **argv, char **envp) {
                 free(tmp->element);
                 free(tmp);
             }
-        } else if (strcmp(arg[0], "list") == 0) { // command to list files full working
+        }
+        else if (strcmp(arg[0], "list") == 0) { // command to list files full working
             printf("Executing built-in [list]\n");
             DIR *directory;
             struct dirent *file;
@@ -141,6 +150,8 @@ int main(int argc, char **argv, char **envp) {
                         printf("%s\n", file->d_name);
                     }
                     printf("\n");
+                    free(directory);
+                    free(file);
                     closedir(directory);
                 }
             } else {
@@ -153,12 +164,16 @@ int main(int argc, char **argv, char **envp) {
                             printf("%s\n", file->d_name);
                         }
                         printf("\n");
+                        free(directory);
+                        free(file);
                         closedir(directory);
                     }
                     i += 1;
                 }
             }
-        } else if (strcmp(arg[0], "cd") == 0) {
+
+        }
+        else if (strcmp(arg[0], "cd") == 0) {
             printf("Executing built-in [cd]\n");
 
             if (arg[1] == NULL) {
@@ -179,30 +194,33 @@ int main(int argc, char **argv, char **envp) {
             } else {
                 printf("Too many arguements");
             }
-        } else if (strcmp(arg[0], "pid") == 0) {
+            free(tmpDir);
+        }
+        else if (strcmp(arg[0], "pid") == 0) {
             printf("Executing built-in [pid]\n");
             printf("shell pid: %u\n", getpid());
-        } else if (strcmp(arg[0], "kill") == 0) { // need to finish
+        }
+        else if (strcmp(arg[0], "kill") == 0) { // need to finish
             printf("Executing built-in [kill]\n");
             printf("shell pid: %u\n", getpid());
-            char *temp;
-            while (arg[1][i] != '\0') {
-                temp[i - 1] = arg[1][i];
-                i++;
+            char temp[3];
+            i = 0;
+            if(arg[1]!=NULL && arg[1][0] == '-' && arg[2]!=NULL){
+
+                while (arg[1][i] != '\0') {
+                    temp[i] = arg[1][i+1];
+                    i++;
+                }
+                temp[i]='\0';
+
+                kill(atoi(arg[2]), atoi(temp));
             }
-/*			char temp;
-			memcpy(temp, arg[1], 1);
-			printf("temp: %c", temp);
-			if (arg[1] != NULL && arg[1][0]== '-')
-			{
-				printf("flag\n");
-			}
-			else if (arg[1] != NULL)
-			{
-				printf("no flag\n");
-			}*/
+
+            else if(arg[1]!=NULL && arg[2]==NULL){
+                kill(atoi(arg[1]), 15);
+            }
         } //TODO
-        else if (strcmp(arg[0], "prompt") == 0) {
+        else if (strcmp(arg[0], "prompt") == 0){
             printf("Executing built-in [prompt]\n");
             if (arg[1] != NULL) {
                 strcpy(prompt, arg[1]);
@@ -211,7 +229,8 @@ int main(int argc, char **argv, char **envp) {
                 fgets(prompt, 64, stdin);
                 prompt[strcspn(prompt, "\n")] = 0;
             }
-        } else if (strcmp(arg[0], "printenv") == 0) {
+        }
+        else if (strcmp(arg[0], "printenv") == 0) {
             printf("Executing built-in [printenv]\n");
             int len = 0;
             if (arg[1] == NULL) {
@@ -228,7 +247,8 @@ int main(int argc, char **argv, char **envp) {
             } else {
                 fprintf(stderr, "\nprintenv: Too many arguments.\n");
             }
-        } else if (strcmp(arg[0], "setenv") == 0) {
+        }
+        else if (strcmp(arg[0], "setenv") == 0) {
 
             printf("Executing built-in [setenv]\n");
             if (arg[1] == NULL) // if no argument was given
@@ -248,7 +268,8 @@ int main(int argc, char **argv, char **envp) {
             else {
                 printf("setenv: Too many arguments\n");
             }
-        } else { // external command
+        }
+        else { // external command
             if ((pid = fork()) < 0) {
                 printf("fork error");
             } else if (pid == 0) { /* child */
@@ -295,6 +316,7 @@ int main(int argc, char **argv, char **envp) {
 
                 execve(execargs[0], execargs, NULL);
                 printf("couldn't execute: %s", buf);
+                free(execargs);
                 exit(127);
             }
 
@@ -308,10 +330,14 @@ int main(int argc, char **argv, char **envp) {
         }
 
         nextprompt:
-        {
             fprintf(stdout, "%s ", prompt);
             fflush(stdout);
-        }
-        exit(0);
     }
+    if(eofStatus == NULL){
+        printf("\nType exit instead\n");
+        fflush(stdout);
+        clearerr(stdin);
+        goto nextprompt;
+    }
+        exit(0);
 }
