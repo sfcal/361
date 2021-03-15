@@ -15,202 +15,182 @@ void sig_handler(int sig)
 	fflush(stdout);
 }
 
-int main(int argc, char **argv, char **envp)
-{
-	char buf[MAXLINE];
-	char *arg[MAXARGS]; // an array of tokens
-	char *ptr;
-	char *tmpDir;
-	char *pch;
-	pid_t pid;
-	int status, i, arg_no;
+int main(int argc, char **argv, char **envp) {
+    char buf[MAXLINE];
+    char *arg[MAXARGS]; // an array of tokens
+    char *ptr;
+    char *tmpDir;
+    char *pch;
+    pid_t pid;
+    int status, i, arg_no;
 
-	signal(SIGINT, sig_handler);
+    signal(SIGINT, sig_handler);
+    signal(SIGTSTP, SIG_IGN); // for CTRL-Z
+    signal(SIGTERM, SIG_IGN);
 
-	fprintf(stdout, "%s ", prompt); /* print prompt (printf requires %% to print %) */
-	fflush(stdout);
-	while (fgets(buf, MAXLINE, stdin) != NULL)
-	{
-		if (strlen(buf) == 1 && buf[strlen(buf) - 1] == '\n')
-			goto nextprompt; // "empty" command line
+    fprintf(stdout, "%s ", prompt); /* print prompt (printf requires %% to print %) */
+    fflush(stdout);
+    while (fgets(buf, MAXLINE, stdin) != NULL) {
+        if (strlen(buf) == 1 && buf[strlen(buf) - 1] == '\n')
+            goto nextprompt; // "empty" command line
 
-		if (buf[strlen(buf) - 1] == '\n')
-			buf[strlen(buf) - 1] = 0; /* replace newline with null */
-		// parse command line into tokens (stored in buf)
-		arg_no = 0;
-		pch = strtok(buf, " ");
-		while (pch != NULL && arg_no < MAXARGS)
-		{
-			arg[arg_no] = pch;
-			arg_no++;
-			pch = strtok(NULL, " ");
-		}
-		arg[arg_no] = (char *)NULL;
+        if (buf[strlen(buf) - 1] == '\n')
+            buf[strlen(buf) - 1] = 0; /* replace newline with null */
+        // parse command line into tokens (stored in buf)
+        arg_no = 0;
+        pch = strtok(buf, " ");
+        while (pch != NULL && arg_no < MAXARGS) {
+            arg[arg_no] = pch;
+            arg_no++;
+            pch = strtok(NULL, " ");
+        }
+        arg[arg_no] = (char *) NULL;
 
-		if (arg[0] == NULL) // "blank" command line
-			goto nextprompt;
+        if (arg[0] == NULL) // "blank" command line
+            goto nextprompt;
 
-		/* print tokens
-		for (i = 0; i < arg_no; i++)
-		  printf("arg[%d] = %s\n", i, arg[i]);
+        /* print tokens
+        for (i = 0; i < arg_no; i++)
+          printf("arg[%d] = %s\n", i, arg[i]);
                 */
 
-		if (strcmp(arg[0], "exit") == 0)
-		{
-			printf("Executing built-in [exit]\n");
-			exit(0);
-		}
-		else if (strcmp(arg[0], "pwd") == 0)
-		{ // built-in command pwd
-			printf("Executing built-in [pwd]\n");
-			ptr = getcwd(NULL, 0);
-			printf("%s\n", ptr);
-			free(ptr);
-		}
-		else if (strcmp(arg[0], "where") == 0) // need to finish
-		{
-			struct pathelement *p, *tmp;
-			char *cmd;
+        if (strcmp(arg[0], "exit") == 0) {
+            printf("Executing built-in [exit]\n");
+            exit(0);
+        } else if (strcmp(arg[0], "pwd") == 0) { // built-in command pwd
+            printf("Executing built-in [pwd]\n");
+            ptr = getcwd(NULL, 0);
+            printf("%s\n", ptr);
+            free(ptr);
+        } else if (strcmp(arg[0], "where") == 0) // TODO
+        {
+            struct pathelement *p, *tmp;
+            char *cmd;
 
-			printf("Executing built-in [where]\n");
+            printf("Executing built-in [where]\n");
 
-			if (arg[1] == NULL)
-			{ // "empty" which
-				printf("which: Too few arguments.\n");
-				goto nextprompt;
-			}
+            if (arg[1] == NULL) { // "empty" which
+                printf("where: Too few arguments.\n");
+                goto nextprompt;
+            }
 
-			p = get_path();
-			/***/
-			tmp = p;
-			while (tmp)
-			{ // print list of paths
-				printf("path [%s]\n", tmp->element);
-				tmp = tmp->next;
-			}
-			/***/
+            p = get_path();
+            /***/
+            tmp = p;
+            while (tmp) { // print list of paths
+                printf("path [%s]\n", tmp->element);
+                tmp = tmp->next;
+            }
+            /***/
 
-			cmd = where(arg[1], p);
-			if (cmd)
-			{
-				printf("%s\n", cmd);
-				free(cmd);
-			}
-			else // argument not found
-				printf("%s: Command not found\n", arg[1]);
+            cmd = where(arg[1], p);
+            if (cmd) {
+                printf("%s\n", cmd);
+                free(cmd);
+            } else // argument not found
+                printf("%s: Command not found\n", arg[1]);
 
-			while (p)
-			{ // free list of path values
-				tmp = p;
-				p = p->next;
-				free(tmp->element);
-				free(tmp);
-			}
-		}
-		else if (strcmp(arg[0], "which") == 0)
-		{ // built-in command which
-			struct pathelement *p, *tmp;
-			char *cmd;
+            while (p) { // free list of path values
+                tmp = p;
+                p = p->next;
+                free(tmp->element);
+                free(tmp);
+            }
+        } else if (strcmp(arg[0], "which") == 0) { // built-in command which
+            struct pathelement *p, *tmp;
+            char *cmd;
 
-			printf("Executing built-in [which]\n");
+            printf("Executing built-in [which]\n");
 
-			if (arg[1] == NULL)
-			{ // "empty" which
-				printf("which: Too few arguments.\n");
-				goto nextprompt;
-			}
+            if (arg[1] == NULL) { // "empty" which
+                printf("which: Too few arguments.\n");
+                goto nextprompt;
+            }
 
-			p = get_path();
-			/***/
-			tmp = p;
-			while (tmp)
-			{ // print list of paths
-				printf("path [%s]\n", tmp->element);
-				tmp = tmp->next;
-			}
-			/***/
+            p = get_path();
+            /***/
+            tmp = p;
+            while (tmp) { // print list of paths
+                printf("path [%s]\n", tmp->element);
+                tmp = tmp->next;
+            }
+            /***/
 
-			cmd = which(arg[1], p);
-			if (cmd)
-			{
-				printf("%s\n", cmd);
-				free(cmd);
-			}
-			else // argument not found
-				printf("%s: Command not found\n", arg[1]);
+            cmd = which(arg[1], p);
+            if (cmd) {
+                printf("%s\n", cmd);
+                free(cmd);
+            } else // argument not found
+                printf("%s: Command not found\n", arg[1]);
 
-			while (p)
-			{ // free list of path values
-				tmp = p;
-				p = p->next;
-				free(tmp->element);
-				free(tmp);
-			}
-		}
-		else if (strcmp(arg[0], "list") == 0)
-		{ // command to list files (might need to double check this)
-			printf("Executing built-in [list]\n");
-			DIR *directory;
-			struct dirent *file;
-			//directory = opendir(getcwd(NULL, 0));
-			if (arg[1] == NULL)
-			{
-				directory = opendir(getcwd(NULL, 0));
-				if (directory != NULL)
-				{
-					while (file = readdir(directory))
-					{
-						printf("%s\n", file->d_name);
-					}
-					printf("\n");
-					closedir(directory);
-				}
-			}
-			else
-			{
-				int i = 1;
-				while (arg[i] != NULL)
-				{
-					directory = opendir(arg[i]);
-					if (directory != NULL)
-					{
-						printf("%s:\n", arg[i]);
-						while (file = readdir(directory))
-						{
-							printf("%s\n", file->d_name);
-						}
-						printf("\n");
-						closedir(directory);
-					}
-					i += 1;
-				}
-			}
-		}
-		else if (strcmp(arg[0], "cd") == 0)
-		{
-			printf("Executing built-in [cd]\n");
-			tmpDir = getcwd(NULL, 0);
-			 char * temp;
-			 memcpy(temp, arg[1], 5);
-			if (arg[1] != NULL && (char *)temp == '-')
-			{
-				chdir(tmpDir);
-			}
-			else
-			{
-				chdir(arg[1]);
-			}
-		}
-		else if (strcmp(arg[0], "pid") == 0)
-		{
-			printf("Executing built-in [pid]\n");
-			printf("shell pid: %u\n", getpid());
-		}
-		else if (strcmp(arg[0], "kill") == 0)
-		{ // need to finish
-			printf("Executing built-in [kill]\n");
-			printf("shell pid: %u\n", getpid());
-			char temp;
+            while (p) { // free list of path values
+                tmp = p;
+                p = p->next;
+                free(tmp->element);
+                free(tmp);
+            }
+        } else if (strcmp(arg[0], "list") == 0) { // command to list files full working
+            printf("Executing built-in [list]\n");
+            DIR *directory;
+            struct dirent *file;
+            //directory = opendir(getcwd(NULL, 0));
+            if (arg[1] == NULL) {
+                directory = opendir(getcwd(NULL, 0));
+                if (directory != NULL) {
+                    while (file = readdir(directory)) {
+                        printf("%s\n", file->d_name);
+                    }
+                    printf("\n");
+                    closedir(directory);
+                }
+            } else {
+                int i = 1;
+                while (arg[i] != NULL) {
+                    directory = opendir(arg[i]);
+                    if (directory != NULL) {
+                        printf("%s:\n", arg[i]);
+                        while (file = readdir(directory)) {
+                            printf("%s\n", file->d_name);
+                        }
+                        printf("\n");
+                        closedir(directory);
+                    }
+                    i += 1;
+                }
+            }
+        } else if (strcmp(arg[0], "cd") == 0) {
+            printf("Executing built-in [cd]\n");
+
+            if (arg[1] == NULL) {
+                tmpDir = getcwd(NULL, 0);
+                chdir(getenv("HOME"));
+
+            } else if (strcmp(arg[1], "-") == 0) {
+                if (tmpDir == NULL) {
+                    printf("No previous directory");
+                    fflush(stdout);
+                } else {
+                    chdir(tmpDir);
+                }
+
+            } else if (arg[1] != NULL && arg[2] == NULL) {
+                tmpDir = getcwd(NULL, 0);
+                chdir(arg[1]);
+            } else {
+                printf("Too many arguements");
+            }
+        } else if (strcmp(arg[0], "pid") == 0) {
+            printf("Executing built-in [pid]\n");
+            printf("shell pid: %u\n", getpid());
+        } else if (strcmp(arg[0], "kill") == 0) { // need to finish
+            printf("Executing built-in [kill]\n");
+            printf("shell pid: %u\n", getpid());
+            char *temp;
+            while (arg[1][i] != '\0') {
+                temp[i - 1] = arg[1][i];
+                i++;
+            }
+/*			char temp;
 			memcpy(temp, arg[1], 1);
 			printf("temp: %c", temp);
 			if (arg[1] != NULL && arg[1][0]== '-')
@@ -220,136 +200,118 @@ int main(int argc, char **argv, char **envp)
 			else if (arg[1] != NULL)
 			{
 				printf("no flag\n");
-			}
-		}
-		else if (strcmp(arg[0], "prompt") == 0)
-		{
-			printf("Executing built-in [prompt]\n");
-			if (arg[1] != NULL)
-			{
-				strcpy(prompt, arg[1]);
-			}
-			else
-			{
-				printf("input prompt prefix: ");
-				fgets(prompt, 64, stdin);
-				prompt[strcspn(prompt, "\n")] = 0;
-			}
-		}
-		else if (strcmp(arg[0], "printenv") == 0) // double check the error message
-		{
-			printf("Executing built-in [printenv]\n");
-			if (arg[1] == NULL)
-			{
-				i = 0;
-				while (envp[i] != NULL)
-				{
-					printf("%s\n", envp[i]);
-					i += 1;
-				}
-			}
-			else if (arg[1] != NULL && arg[2] == NULL)
-			{
-				char *tmp;
-				char *tmp2;
-				strcpy(tmp2, arg[1]);
-				i = 0;
-				while (envp[i] != NULL)
-				{
-					tmp = strtok(tmp2, "=");
-					if (strcmp(tmp, arg[1]) == 0)
-					{
-						printf("%s\n", envp[i]);
-					}
-					i += 1;
-				}
-			}
-			else if (arg[1] != NULL && arg[2] != NULL)
-			{
-				i = 0;
-				while (envp[i] != NULL)
-				{
-					printf("%s\n", envp[i]);
-					i += 1;
-				}
-			}
-		}
-		else if (strcmp(arg[0], "setenv") == 0)
-		{
-			printf("Executing built-in [setenv]\n");
-			setenv(arg[1], arg[2], arg[3]);
-		}
-		else
-		{ // external command
-			if ((pid = fork()) < 0)
-			{
-				printf("fork error");
-			}
-			else if (pid == 0)
-			{ /* child */
-				// an array of aguments for execve()
-				char *execargs[MAXARGS];
-				glob_t paths;
-				struct pathelement *path;
-				int csource, j;
-				char **p;
-				path = get_path();
+			}*/
+        } //TODO
+        else if (strcmp(arg[0], "prompt") == 0) {
+            printf("Executing built-in [prompt]\n");
+            if (arg[1] != NULL) {
+                strcpy(prompt, arg[1]);
+            } else {
+                printf("input prompt prefix: ");
+                fgets(prompt, 64, stdin);
+                prompt[strcspn(prompt, "\n")] = 0;
+            }
+        } else if (strcmp(arg[0], "printenv") == 0) {
+            printf("Executing built-in [printenv]\n");
+            int len = 0;
+            if (arg[1] == NULL) {
+                while (__environ[len] != NULL) {
+                    printf("%s\n", __environ[len]);
+                    len++;
+                }
+            } else if (arg[1] != NULL && arg[2] == NULL) {
+                if (getenv(arg[1]) == NULL) {
+                    continue;
+                } else {
+                    printf("%s\n", getenv(arg[1]));
+                }
+            } else {
+                fprintf(stderr, "\nprintenv: Too many arguments.\n");
+            }
+        } else if (strcmp(arg[0], "setenv") == 0) {
+
+            printf("Executing built-in [setenv]\n");
+            if (arg[1] == NULL) // if no argument was given
+            {
+                i = 0;
+                while (__environ[i] != NULL) {
+                    printf("%s\n", __environ[i]);
+                    i += 1;
+                }
+            } else if (arg[1] != NULL && arg[2] == NULL) // one argument
+            {
+                setenv(arg[1], "", 1);
+
+            } else if (arg[1] != NULL && arg[2] != NULL) // two arguments
+                setenv(arg[1], arg[2], 1);
+
+            else {
+                printf("setenv: Too many arguments\n");
+            }
+        } else { // external command
+            if ((pid = fork()) < 0) {
+                printf("fork error");
+            } else if (pid == 0) { /* child */
+                // an array of aguments for execve()
+                char *execargs[MAXARGS];
+                glob_t paths;
+                struct pathelement *path;
+                int csource, j = 0;
+                char **p;
+                path = get_path();
                 execargs[j] = malloc(strlen(arg[0]) + 1);
 
-				//if(which(arg[0], path)==NULL)
-				 //   printf("%s: command not found\n", arg[0]);
-				  //  fflush(stdout);
+                //if(which(arg[0], path)==NULL)
+                //   printf("%s: command not found\n", arg[0]);
+                //  fflush(stdout);
 
-				arg[0][0]=='/' ? strcpy(execargs[0], arg[0]):
-				        strcpy(execargs[0], which(arg[0], path)); // full path or not
+                arg[0][0] == '/' ? strcpy(execargs[0], arg[0]) :
+                strcpy(execargs[0], which(arg[0], path)); // full path or not
 
-				j = 1;
-				for (i = 1; i < arg_no; i++) // check arguments
-					if (strchr(arg[i], '*') != NULL)
-					{ // wildcard!
-						csource = glob(arg[i], 0, NULL, &paths);
-						if (csource == 0)
-						{
-							for (p = paths.gl_pathv; *p != NULL; ++p)
-							{
-								execargs[j] = malloc(strlen(*p) + 1);
-								strcpy(execargs[j], *p);
-								j++;
-							}
+                j = 1;
+                for (i = 1; i < arg_no; i++) // check arguments
+                    if (strchr(arg[i], '*') != NULL) { // wildcard!
+                        csource = glob(arg[i], 0, NULL, &paths);
+                        if (csource == 0) {
+                            for (p = paths.gl_pathv; *p != NULL; ++p) {
+                                execargs[j] = malloc(strlen(*p) + 1);
+                                strcpy(execargs[j], *p);
+                                j++;
+                            }
 
-							globfree(&paths);
-						}
-					}
+                            globfree(&paths);
+                        }
+                    } else if (arg[i][0] == '-')
+                        execargs[j++] = arg[i];
 
-				else if(arg[i][0]=='-')
-				    execargs[j++]=arg[i];
+                    else if (arg[i] != NULL)
+                        execargs[j++] = arg[i];
 
-				else if(arg[i]!=NULL)
-				    execargs[j++]=arg[i];
+                execargs[j] = NULL;
 
-				execargs[j] = NULL;
+                i = 0;
+                for (i = 0; i < j; i++)
+                    printf("exec arg [%s]\n", execargs[i]);
 
-				i = 0;
-				for (i = 0; i < j; i++)
-					printf("exec arg [%s]\n", execargs[i]);
+                execve(execargs[0], execargs, NULL);
+                printf("couldn't execute: %s", buf);
+                exit(127);
+            }
 
-				execve(execargs[0], execargs, NULL);
-				printf("couldn't execute: %s", buf);
-				exit(127);
-			}
-
-			/* parent */
-			if ((pid = waitpid(pid, &status, 0)) < 0)
-				printf("waitpid error");
-			/**
-                  if (WIFEXITED(status)) S&R p. 239 
+            /* parent */
+            if ((pid = waitpid(pid, &status, 0)) < 0)
+                printf("waitpid error");
+            /**
+                  if (WIFEXITED(status)) S&R p. 239
                     printf("child terminates with (%d)\n", WEXITSTATUS(status));
 **/
-		}
+        }
 
-	nextprompt:
-		fprintf(stdout, "%s ", prompt);
-		fflush(stdout);
-	}
-	exit(0);
+        nextprompt:
+        {
+            fprintf(stdout, "%s ", prompt);
+            fflush(stdout);
+        }
+        exit(0);
+    }
 }
