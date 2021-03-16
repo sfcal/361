@@ -6,6 +6,7 @@
 #include <dirent.h>
 #include <glob.h>
 #include <sys/wait.h>
+#include <libgen.h>
 #include "sh.h"
 
 char prompt[64] = {'>', '>'};
@@ -30,8 +31,8 @@ int main(int argc, char **argv, char **envp) {
     char *eofStatus;
 
     signal(SIGINT, sig_handler);
-    //signal(SIGTSTP, SIG_IGN); // for CTRL-Z
-    //signal(SIGTERM, SIG_IGN);
+    signal(SIGTSTP, SIG_IGN); // for CTRL-Z
+    signal(SIGTERM, SIG_IGN);
 
     fprintf(stdout, "%s ", prompt); /* print prompt (printf requires %% to print %) */
     fflush(stdout);
@@ -95,7 +96,10 @@ int main(int argc, char **argv, char **envp) {
                 printf("%s\n", cmd);
                 free(cmd);
             } else // argument not found
+            {
                 printf("%s: Command not found\n", arg[1]);
+                fflush(stdout);
+            }
 
             while (p) { // free list of path values
                 tmp = p;
@@ -150,8 +154,8 @@ int main(int argc, char **argv, char **envp) {
                         printf("%s\n", file->d_name);
                     }
                     printf("\n");
-                    free(directory);
-                    free(file);
+                    //free(directory);
+                    //free(file);
                     closedir(directory);
                 }
             } else {
@@ -164,8 +168,8 @@ int main(int argc, char **argv, char **envp) {
                             printf("%s\n", file->d_name);
                         }
                         printf("\n");
-                        free(directory);
-                        free(file);
+                        //free(directory);
+                        //free(file);
                         closedir(directory);
                     }
                     i += 1;
@@ -174,27 +178,31 @@ int main(int argc, char **argv, char **envp) {
 
         }
         else if (strcmp(arg[0], "cd") == 0) {
+            int suc = 0;
             printf("Executing built-in [cd]\n");
 
             if (arg[1] == NULL) {
                 tmpDir = getcwd(NULL, 0);
-                chdir(getenv("HOME"));
+                suc = chdir(getenv("HOME"));
 
             } else if (strcmp(arg[1], "-") == 0) {
                 if (tmpDir == NULL) {
                     printf("No previous directory");
                     fflush(stdout);
                 } else {
-                    chdir(tmpDir);
+                    suc = chdir(tmpDir);
                 }
 
             } else if (arg[1] != NULL && arg[2] == NULL) {
                 tmpDir = getcwd(NULL, 0);
-                chdir(arg[1]);
+                suc = chdir(arg[1]);
             } else {
                 printf("Too many arguements");
             }
-            free(tmpDir);
+            // check if success found dir
+            if(suc != 0){
+                printf("Path [%s] not found\n", arg[1]);
+            }
         }
         else if (strcmp(arg[0], "pid") == 0) {
             printf("Executing built-in [pid]\n");
@@ -268,17 +276,21 @@ int main(int argc, char **argv, char **envp) {
             else {
                 printf("setenv: Too many arguments\n");
             }
+
         }
         else { // external command
             if ((pid = fork()) < 0) {
                 printf("fork error");
             } else if (pid == 0) { /* child */
                 // an array of aguments for execve()
+                //printf("here1\n");
+                fflush(stdout);
                 char *execargs[MAXARGS];
                 glob_t paths;
                 struct pathelement *path;
                 int csource, j = 0;
                 char **p;
+                char *temp;
                 path = get_path();
                 execargs[j] = malloc(strlen(arg[0]) + 1);
 
@@ -286,10 +298,33 @@ int main(int argc, char **argv, char **envp) {
                 //   printf("%s: command not found\n", arg[0]);
                 //  fflush(stdout);
 
-                arg[0][0] == '/' ? strcpy(execargs[0], arg[0]) :
-                strcpy(execargs[0], which(arg[0], path)); // full path or not
+                //printf("1.5");
+                //fflush(stdout);
+                switch (arg[0][0]) {
+                    case '/' :
+                        strcpy(execargs[0], arg[0]);
+                        break;
+
+                    case '.' : //2 dots
+                        if (arg[0][1] == '.') {
+                            arg[0] += 2;
+                            strcpy(execargs[0], strcat(dirname(getcwd(NULL, 0)), arg[0]));
+                            break;
+                        } else {
+                            arg[0]++;
+                            strcpy(execargs[0], strcat(getcwd(NULL, 0), arg[0]));
+                            break;
+                        }
+                    default :
+                        // printf("1.75");
+                        //fflush(stdout);
+                        strcpy(execargs[0], which(arg[0], path));
+                        break;
+                }
 
                 j = 1;
+                //printf("here2");
+                //fflush(stdout);
                 for (i = 1; i < arg_no; i++) // check arguments
                     if (strchr(arg[i], '*') != NULL) { // wildcard!
                         csource = glob(arg[i], 0, NULL, &paths);
@@ -309,24 +344,26 @@ int main(int argc, char **argv, char **envp) {
                         execargs[j++] = arg[i];
 
                 execargs[j] = NULL;
-
+                //printf("here3");
+                //fflush(stdout);
                 i = 0;
                 for (i = 0; i < j; i++)
                     printf("exec arg [%s]\n", execargs[i]);
 
                 execve(execargs[0], execargs, NULL);
-                printf("couldn't execute: %s", buf);
-                free(execargs);
+                printf("%s: Command not found\n", buf);
+                fflush(stdout);
                 exit(127);
             }
 
             /* parent */
-            if ((pid = waitpid(pid, &status, 0)) < 0)
+            if ((pid = waitpid(pid, &status, 0)) < 0) {
                 printf("waitpid error");
-            /**
-                  if (WIFEXITED(status)) S&R p. 239
-                    printf("child terminates with (%d)\n", WEXITSTATUS(status));
-**/
+            }
+
+            if (WIFEXITED(status) && WIFEXITED(status) == 0) {
+                printf("child terminates with (%d)\n", WEXITSTATUS(status));
+            }
         }
 
         nextprompt:
