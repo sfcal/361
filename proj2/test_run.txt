@@ -1,0 +1,636 @@
+sfcal@pop-os:~/CLionProjects/mysh/cmake-build-debug$ ./mysh
+>> 
+Type exit instead
+>> ^Z^Z^Z^C
+>> ^C
+>> ^C
+>> ^C
+>> which
+Executing built-in [which]
+which: Too few arguments.
+>> which ls
+Executing built-in [which]
+path [/opt/clion/bin]
+path [/opt/clion/bin]
+path [/usr/local/sbin]
+path [/usr/local/bin]
+path [/usr/sbin]
+path [/usr/bin]
+path [/sbin]
+path [/bin]
+path [/usr/games]
+path [/usr/local/games]
+path [/snap/bin]
+/usr/bin/ls
+>> ls
+exec arg [/usr/bin/ls]
+CMakeCache.txt	Makefile  cmake_install.cmake  mysh.cbp
+CMakeFiles	Testing   mysh		       testing
+>> 
+>> 
+>> 
+>> 
+Type exit instead
+>> ^Z^Z^Z^C
+>> ^C
+>> ^Z^C
+>> ^Z
+>> 
+>> ls -l
+exec arg [/usr/bin/ls]
+exec arg [-l]
+total 88
+-rw-rw-r-- 1 sfcal sfcal 23588 Mar 13 18:39 CMakeCache.txt
+drwxr-xr-x 5 sfcal sfcal  4096 Mar 15 22:10 CMakeFiles
+-rw-rw-r-- 1 sfcal sfcal  7535 Mar 13 18:39 Makefile
+drwxr-xr-x 3 sfcal sfcal  4096 Mar 13 18:16 Testing
+-rw-r--r-- 1 sfcal sfcal  1529 Mar 13 18:16 cmake_install.cmake
+-rwxrwxr-x 1 sfcal sfcal 31888 Mar 15 22:10 mysh
+-rw-rw-r-- 1 sfcal sfcal  5592 Mar 13 18:39 mysh.cbp
+-rw-rw-r-- 1 sfcal sfcal  1233 Mar 15 16:04 testing
+>> ls -l -a /proc/tty
+exec arg [/usr/bin/ls]
+exec arg [-l]
+exec arg [-a]
+exec arg [/proc/tty]
+total 0
+dr-xr-xr-x   6 root root 0 Mar 15 22:12 .
+dr-xr-xr-x 432 root root 0 Mar 12 11:39 ..
+dr-x------   4 root root 0 Mar 15 22:12 driver
+-r--r--r--   1 root root 0 Mar 15 22:12 drivers
+dr-xr-xr-x   2 root root 0 Mar 15 22:12 ldisc
+-r--r--r--   1 root root 0 Mar 15 22:12 ldiscs
+>> ls -l -F /proc/tty
+exec arg [/usr/bin/ls]
+exec arg [-l]
+exec arg [-F]
+exec arg [/proc/tty]
+total 0
+dr-x------ 4 root root 0 Mar 15 22:12 driver/
+-r--r--r-- 1 root root 0 Mar 15 22:12 drivers
+dr-xr-xr-x 2 root root 0 Mar 15 22:12 ldisc/
+-r--r--r-- 1 root root 0 Mar 15 22:12 ldiscs
+>> ls -l -F /etc/perl
+exec arg [/usr/bin/ls]
+exec arg [-l]
+exec arg [-F]
+exec arg [/etc/perl]
+total 4
+drwxr-xr-x 2 root root 4096 Nov 17 10:57 Net/
+>> ls -l -a /etc/perl
+exec arg [/usr/bin/ls]
+exec arg [-l]
+exec arg [-a]
+exec arg [/etc/perl]
+total 20
+drwxr-xr-x   3 root root  4096 Nov 17 10:57 .
+drwxr-xr-x 140 root root 12288 Mar 15 21:52 ..
+drwxr-xr-x   2 root root  4096 Nov 17 10:57 Net
+>> where
+Executing built-in [where]
+where: Too few arguments.
+>> where ls
+Executing built-in [where]
+path [/opt/clion/bin]
+path [/opt/clion/bin]
+path [/usr/local/sbin]
+path [/usr/local/bin]
+path [/usr/sbin]
+path [/usr/bin]
+path [/sbin]
+path [/bin]
+path [/usr/games]
+path [/usr/local/games]
+path [/snap/bin]
+[/usr/bin/ls]
+[/bin/ls]
+/snap/bin/ls
+>> /bin/ls -l -g
+exec arg [/bin/ls]
+exec arg [-l]
+exec arg [-g]
+total 88
+-rw-rw-r-- 1 sfcal 23588 Mar 13 18:39 CMakeCache.txt
+drwxr-xr-x 5 sfcal  4096 Mar 15 22:10 CMakeFiles
+-rw-rw-r-- 1 sfcal  7535 Mar 13 18:39 Makefile
+drwxr-xr-x 3 sfcal  4096 Mar 13 18:16 Testing
+-rw-r--r-- 1 sfcal  1529 Mar 13 18:16 cmake_install.cmake
+-rwxrwxr-x 1 sfcal 31888 Mar 15 22:10 mysh
+-rw-rw-r-- 1 sfcal  5592 Mar 13 18:39 mysh.cbp
+-rw-rw-r-- 1 sfcal  1233 Mar 15 16:04 testing
+>> /bin/ls -l
+exec arg [/bin/ls]
+exec arg [-l]
+total 88
+-rw-rw-r-- 1 sfcal sfcal 23588 Mar 13 18:39 CMakeCache.txt
+drwxr-xr-x 5 sfcal sfcal  4096 Mar 15 22:10 CMakeFiles
+-rw-rw-r-- 1 sfcal sfcal  7535 Mar 13 18:39 Makefile
+drwxr-xr-x 3 sfcal sfcal  4096 Mar 13 18:16 Testing
+-rw-r--r-- 1 sfcal sfcal  1529 Mar 13 18:16 cmake_install.cmake
+-rwxrwxr-x 1 sfcal sfcal 31888 Mar 15 22:10 mysh
+-rw-rw-r-- 1 sfcal sfcal  5592 Mar 13 18:39 mysh.cbp
+-rw-rw-r-- 1 sfcal sfcal  1233 Mar 15 16:04 testing
+>> file *
+exec arg [/usr/bin/file]
+exec arg [CMakeCache.txt]
+exec arg [CMakeFiles]
+exec arg [Makefile]
+exec arg [Testing]
+exec arg [cmake_install.cmake]
+exec arg [mysh]
+exec arg [mysh.cbp]
+exec arg [testing]
+CMakeCache.txt:      ASCII text, with very long lines
+CMakeFiles:          directory
+Makefile:            makefile script, ASCII text
+Testing:             directory
+cmake_install.cmake: ASCII text
+mysh:                ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=eaec7dd3c0a8c744c0b610032aa1a6823ff6d140, for GNU/Linux 3.2.0, with debug_info, not stripped
+mysh.cbp:            XML 1.0 document, ASCII text
+testing:             ASCII text
+>> ls *
+exec arg [/usr/bin/ls]
+exec arg [CMakeCache.txt]
+exec arg [CMakeFiles]
+exec arg [Makefile]
+exec arg [Testing]
+exec arg [cmake_install.cmake]
+exec arg [mysh]
+exec arg [mysh.cbp]
+exec arg [testing]
+CMakeCache.txt	Makefile  cmake_install.cmake  mysh  mysh.cbp  testing
+
+CMakeFiles:
+3.17.5				 TargetDirectories.txt
+CMakeDirectoryInformation.cmake  clion-environment.txt
+CMakeOutput.log			 clion-log.txt
+CMakeTmp			 cmake.check_cache
+Makefile.cmake			 mysh.dir
+Makefile2			 progress.marks
+
+Testing:
+Temporary
+>> ls *.c
+exec arg [/usr/bin/ls]
+CMakeCache.txt	Makefile  cmake_install.cmake  mysh.cbp
+CMakeFiles	Testing   mysh		       testing
+>> ls *.txt
+exec arg [/usr/bin/ls]
+exec arg [CMakeCache.txt]
+CMakeCache.txt
+>> ls mysh*
+exec arg [/usr/bin/ls]
+exec arg [mysh]
+exec arg [mysh.cbp]
+mysh  mysh.cbp
+>> blah
+blah: Command not found
+>> /blah
+exec arg [/blah]
+/blah: Command not found
+>> ls -l /blah
+exec arg [/usr/bin/ls]
+exec arg [-l]
+exec arg [/blah]
+/usr/bin/ls: cannot access '/blah': No such file or directory
+>> /usr/bin
+exec arg [/usr/bin]
+/usr/bin: Command not found
+>> /usr/bin/ls -la /
+exec arg [/usr/bin/ls]
+exec arg [-la]
+exec arg [/]
+total 88
+drwxr-xr-x  21 root root  4096 Jan 30 16:39 .
+drwxr-xr-x  21 root root  4096 Jan 30 16:39 ..
+lrwxrwxrwx   1 root root     7 Oct 22 14:03 bin -> usr/bin
+drwxr-xr-x   3 root root  4096 Mar 15 21:53 boot
+drwxr-xr-x  20 root root  4440 Mar 14 18:49 dev
+drwxr-xr-x 140 root root 12288 Mar 15 21:52 etc
+drwxr-xr-x   4 root root  4096 Nov 24 21:01 home
+lrwxrwxrwx   1 root root     7 Oct 22 14:03 lib -> usr/lib
+lrwxrwxrwx   1 root root     9 Oct 22 14:03 lib32 -> usr/lib32
+lrwxrwxrwx   1 root root     9 Oct 22 14:03 lib64 -> usr/lib64
+lrwxrwxrwx   1 root root    10 Oct 22 14:03 libx32 -> usr/libx32
+drwx------   2 root root 16384 Nov 24 20:54 lost+found
+drwxr-xr-x   3 root root  4096 Mar 14 18:40 media
+drwxr-xr-x   2 root root  4096 Oct 22 14:03 mnt
+drwxr-xr-x   7 root root  4096 Mar 12 11:37 opt
+dr-xr-xr-x 432 root root     0 Mar 12 11:39 proc
+drwx------   6 root root  4096 Dec 31  1969 recovery
+drwx------   5 root root  4096 Nov 24 22:45 root
+drwxr-xr-x  37 root root  1160 Mar 15 21:52 run
+lrwxrwxrwx   1 root root     8 Oct 22 14:03 sbin -> usr/sbin
+drwxr-xr-x   5 root root  4096 Dec 10 12:54 snap
+drwxr-xr-x   2 root root  4096 Oct 22 14:03 srv
+dr-xr-xr-x  13 root root     0 Mar 12 11:39 sys
+drwxrwxrwt  35 root root  4096 Mar 15 22:10 tmp
+drwxr-xr-x  14 root root  4096 Oct 22 14:03 usr
+drwxr-xr-x  13 root root  4096 Dec 10 12:52 var
+drwxr-xr-x   4 root root  4096 Jan 30 16:39 volume1
+>> file /bin/ls /bin/rm
+exec arg [/usr/bin/file]
+exec arg [/bin/ls]
+exec arg [/bin/rm]
+/bin/ls: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=6bdcf4cd8c286ff3da2c06754b0d1e8d6216bc62, for GNU/Linux 3.2.0, stripped
+/bin/rm: ELF 64-bit LSB shared object, x86-64, version 1 (SYSV), dynamically linked, interpreter /lib64/ld-linux-x86-64.so.2, BuildID[sha1]=57782960232c17fc77c7969510c3bb4575c672d4, for GNU/Linux 3.2.0, stripped
+>> which ls rm
+Executing built-in [which]
+path [/opt/clion/bin]
+path [/opt/clion/bin]
+path [/usr/local/sbin]
+path [/usr/local/bin]
+path [/usr/sbin]
+path [/usr/bin]
+path [/sbin]
+path [/bin]
+path [/usr/games]
+path [/usr/local/games]
+path [/snap/bin]
+/usr/bin/ls
+>> where ls rm
+Executing built-in [where]
+path [/opt/clion/bin]
+path [/opt/clion/bin]
+path [/usr/local/sbin]
+path [/usr/local/bin]
+path [/usr/sbin]
+path [/usr/bin]
+path [/sbin]
+path [/bin]
+path [/usr/games]
+path [/usr/local/games]
+path [/snap/bin]
+[/usr/bin/ls]
+[/bin/ls]
+/snap/bin/ls
+>> list
+Executing built-in [list]
+mysh
+Testing
+CMakeCache.txt
+.
+CMakeFiles
+cmake_install.cmake
+..
+testing
+Makefile
+mysh.cbp
+
+>> list -l /blah
+Executing built-in [list]
+>> /usr/bin
+exec arg [/usr/bin]
+/usr/bin: Command not found
+>> cd
+Executing built-in [cd]
+>> pwd
+Executing built-in [pwd]
+/home/sfcal
+>> cd /blah
+Executing built-in [cd]
+Path [/blah] not found
+>> cd /usr/bin /usr/ucb
+Executing built-in [cd]
+Too many arguements>> 
+>> cd -
+Executing built-in [cd]
+>> pwd
+Executing built-in [pwd]
+/home/sfcal
+>> ls
+exec arg [/usr/bin/ls]
+361	       Documents  Public       hashmap_SC-BP	  snap
+CISC181        Downloads  Videos       hashmap_SC-BP.zip
+CLionProjects  Music	  data	       media-stack
+Desktop        Pictures   dockerfiles  oldclion
+>> cd 361
+Executing built-in [cd]
+>> ls
+exec arg [/usr/bin/ls]
+361  hw1
+>> cd -
+Executing built-in [cd]
+>> ls
+exec arg [/usr/bin/ls]
+361	       Documents  Public       hashmap_SC-BP	  snap
+CISC181        Downloads  Videos       hashmap_SC-BP.zip
+CLionProjects  Music	  data	       media-stack
+Desktop        Pictures   dockerfiles  oldclion
+>> more sh.c
+exec arg [/usr/bin/more]
+exec arg [sh.c]
+more: cannot open sh.c: No such file or directory
+>> cd 361/361/mysh
+Executing built-in [cd]
+Path [361/361/mysh] not found
+>> cd 361
+Executing built-in [cd]
+>> ls
+exec arg [/usr/bin/ls]
+361  hw1
+>> cd 361
+Executing built-in [cd]
+>> ls
+exec arg [/usr/bin/ls]
+proj1  proj2
+>> cd proj2
+Executing built-in [cd]
+>> ls
+exec arg [/usr/bin/ls]
+1.a		Makefile   get_path.c  sh.h		     where.o
+1.b		SHELL.zip  get_path.h  shell-with-builtin.c  which.c
+1.c		a.hh	   get_path.o  shell-with-builtin.o  which.o
+CMakeLists.txt	b.hh	   mysh        where.c
+>> more sh.c
+exec arg [/usr/bin/more]
+exec arg [sh.c]
+more: cannot open sh.c: No such file or directory
+>> more sh.h
+exec arg [/usr/bin/more]
+exec arg [sh.h]
+#include "get_path.h"
+
+int pid;
+char *which(char *command, struct pathelement *pathlist);
+char *where(char *command, struct pathelement *pathlist);
+void list(char *dir);
+void printenv(char **envp);
+
+#define PROMPTMAX 64
+#define MAXARGS   16
+#define MAXLINE   128
+>> more shell-with-builtin.c
+exec arg [/usr/bin/more]
+exec arg [shell-with-builtin.c]
+#include <unistd.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <signal.h>
+#include <dirent.h>
+#include <glob.h>
+#include <sys/wait.h>
+#include <libgen.h>
+#include "sh.h"
+
+char prompt[64] = {'>', '>'};
+void sig_handler(int sig)
+{
+    fprintf(stdout, "\n%s ", prompt);
+    fflush(stdout);
+}
+
+int main(int argc, char **argv, char **envp)
+{
+    char buf[MAXLINE];
+    char *arg[MAXARGS]; // an array of tokens
+    char *ptr;
+--More--(3%)
+>> cd /usr/bin
+Executing built-in [cd]
+>> pwd
+Executing built-in [pwd]
+/usr/bin
+>> ./ls /
+exec arg [/usr/bin/ls]
+exec arg [/]
+bin   etc   lib32   lost+found	opt	  root	snap  tmp  volume1
+boot  home  lib64   media	proc	  run	srv   usr
+dev   lib   libx32  mnt		recovery  sbin	sys   var
+>> ../bin/ls /
+exec arg [/usr/bin/ls]
+exec arg [/]
+bin   etc   lib32   lost+found	opt	  root	snap  tmp  volume1
+boot  home  lib64   media	proc	  run	srv   usr
+dev   lib   libx32  mnt		recovery  sbin	sys   var
+>> pid
+Executing built-in [pid]
+shell pid: 2286349
+>> kill
+Executing built-in [kill]
+shell pid: 2286349
+>> kill 2286449
+Executing built-in [kill]
+shell pid: 2286349
+>> kill 2286349
+Executing built-in [kill]
+shell pid: 2286349
+>> kill -1 2286349
+Executing built-in [kill]
+shell pid: 2286349
+Hangup
+sfcal@pop-os:~/361/361/proj2$ ./mysh
+>> prompt
+Executing built-in [prompt]
+input prompt prefix: testprompt
+testprompt 
+testprompt 
+testprompt 
+testprompt 
+testprompt ls
+exec arg [/usr/bin/ls]
+1.a		Makefile   get_path.c  sh.h		     where.o
+1.b		SHELL.zip  get_path.h  shell-with-builtin.c  which.c
+1.c		a.hh	   get_path.o  shell-with-builtin.o  which.o
+CMakeLists.txt	b.hh	   mysh        where.c
+testprompt prompt 361shell
+Executing built-in [prompt]
+361shell printenv PATH
+Executing built-in [printenv]
+/opt/clion/bin:/opt/clion/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+361shell printenv
+Executing built-in [printenv]
+SHELL=/bin/bash
+SESSION_MANAGER=local/pop-os:@/tmp/.ICE-unix/3075,unix/pop-os:/tmp/.ICE-unix/3075
+QT_ACCESSIBILITY=1
+COLORTERM=truecolor
+XDG_CONFIG_DIRS=/etc/xdg/xdg-pop:/etc/xdg
+XDG_MENU_PREFIX=gnome-
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GTK_IM_MODULE=ibus
+LANGUAGE=en_US:en
+LC_ADDRESS=en_US.UTF-8
+GNOME_SHELL_SESSION_MODE=pop
+LC_NAME=en_US.UTF-8
+SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+XMODIFIERS=@im=ibus
+DESKTOP_SESSION=pop
+LC_MONETARY=en_US.UTF-8
+SSH_AGENT_PID=2898
+GTK_MODULES=gail:atk-bridge:appmenu-gtk-module
+PWD=/home/sfcal/361/361/proj2
+LOGNAME=sfcal
+XDG_SESSION_DESKTOP=pop
+XDG_SESSION_TYPE=x11
+GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+XAUTHORITY=/run/user/1000/gdm/Xauthority
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+WINDOWPATH=2
+HOME=/home/sfcal
+USERNAME=sfcal
+LC_PAPER=en_US.UTF-8
+LANG=en_US.UTF-8
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+XDG_CURRENT_DESKTOP=pop:GNOME
+VTE_VERSION=6200
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/20b015b4_11f1_49d9_abcd_a4d7533fdb7d
+GJS_DEBUG_OUTPUT=stderr
+LESSCLOSE=/usr/bin/lesspipe %s %s
+XDG_SESSION_CLASS=user
+TERM=xterm-256color
+LC_IDENTIFICATION=en_US.UTF-8
+LESSOPEN=| /usr/bin/lesspipe %s
+USER=sfcal
+GNOME_TERMINAL_SERVICE=:1.3770
+DISPLAY=:1
+SHLVL=1
+LC_TELEPHONE=en_US.UTF-8
+QT_IM_MODULE=ibus
+LC_MEASUREMENT=en_US.UTF-8
+PAPERSIZE=letter
+XDG_RUNTIME_DIR=/run/user/1000
+LC_TIME=en_US.UTF-8
+XDG_DATA_DIRS=/usr/share/pop:/home/sfcal/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+PATH=/opt/clion/bin:/opt/clion/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=pop
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+LC_NUMERIC=en_US.UTF-8
+OLDPWD=/home/sfcal
+_=./mysh
+361shell setenv
+Executing built-in [setenv]
+SHELL=/bin/bash
+SESSION_MANAGER=local/pop-os:@/tmp/.ICE-unix/3075,unix/pop-os:/tmp/.ICE-unix/3075
+QT_ACCESSIBILITY=1
+COLORTERM=truecolor
+XDG_CONFIG_DIRS=/etc/xdg/xdg-pop:/etc/xdg
+XDG_MENU_PREFIX=gnome-
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GTK_IM_MODULE=ibus
+LANGUAGE=en_US:en
+LC_ADDRESS=en_US.UTF-8
+GNOME_SHELL_SESSION_MODE=pop
+LC_NAME=en_US.UTF-8
+SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+XMODIFIERS=@im=ibus
+DESKTOP_SESSION=pop
+LC_MONETARY=en_US.UTF-8
+SSH_AGENT_PID=2898
+GTK_MODULES=gail:atk-bridge:appmenu-gtk-module
+PWD=/home/sfcal/361/361/proj2
+LOGNAME=sfcal
+XDG_SESSION_DESKTOP=pop
+XDG_SESSION_TYPE=x11
+GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+XAUTHORITY=/run/user/1000/gdm/Xauthority
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+WINDOWPATH=2
+HOME=/home/sfcal
+USERNAME=sfcal
+LC_PAPER=en_US.UTF-8
+LANG=en_US.UTF-8
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+XDG_CURRENT_DESKTOP=pop:GNOME
+VTE_VERSION=6200
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/20b015b4_11f1_49d9_abcd_a4d7533fdb7d
+GJS_DEBUG_OUTPUT=stderr
+LESSCLOSE=/usr/bin/lesspipe %s %s
+XDG_SESSION_CLASS=user
+TERM=xterm-256color
+LC_IDENTIFICATION=en_US.UTF-8
+LESSOPEN=| /usr/bin/lesspipe %s
+USER=sfcal
+GNOME_TERMINAL_SERVICE=:1.3770
+DISPLAY=:1
+SHLVL=1
+LC_TELEPHONE=en_US.UTF-8
+QT_IM_MODULE=ibus
+LC_MEASUREMENT=en_US.UTF-8
+PAPERSIZE=letter
+XDG_RUNTIME_DIR=/run/user/1000
+LC_TIME=en_US.UTF-8
+XDG_DATA_DIRS=/usr/share/pop:/home/sfcal/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+PATH=/opt/clion/bin:/opt/clion/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=pop
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+LC_NUMERIC=en_US.UTF-8
+OLDPWD=/home/sfcal
+_=./mysh
+361shell sentenv TEST
+361shell printenv TEST
+Executing built-in [printenv]
+
+361shell setenv TEST testing more
+Executing built-in [setenv]
+361shell setenv HOME /
+Executing built-in [setenv]
+361shell printenv
+Executing built-in [printenv]
+SHELL=/bin/bash
+SESSION_MANAGER=local/pop-os:@/tmp/.ICE-unix/3075,unix/pop-os:/tmp/.ICE-unix/3075
+QT_ACCESSIBILITY=1
+COLORTERM=truecolor
+XDG_CONFIG_DIRS=/etc/xdg/xdg-pop:/etc/xdg
+XDG_MENU_PREFIX=gnome-
+GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+GTK_IM_MODULE=ibus
+LANGUAGE=en_US:en
+LC_ADDRESS=en_US.UTF-8
+GNOME_SHELL_SESSION_MODE=pop
+LC_NAME=en_US.UTF-8
+SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+XMODIFIERS=@im=ibus
+DESKTOP_SESSION=pop
+LC_MONETARY=en_US.UTF-8
+SSH_AGENT_PID=2898
+GTK_MODULES=gail:atk-bridge:appmenu-gtk-module
+PWD=/home/sfcal/361/361/proj2
+LOGNAME=sfcal
+XDG_SESSION_DESKTOP=pop
+XDG_SESSION_TYPE=x11
+GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+XAUTHORITY=/run/user/1000/gdm/Xauthority
+GJS_DEBUG_TOPICS=JS ERROR;JS LOG
+WINDOWPATH=2
+HOME=/
+USERNAME=sfcal
+LC_PAPER=en_US.UTF-8
+LANG=en_US.UTF-8
+LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=30;41:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arc=01;31:*.arj=01;31:*.taz=01;31:*.lha=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.tlz=01;31:*.txz=01;31:*.tzo=01;31:*.t7z=01;31:*.zip=01;31:*.z=01;31:*.dz=01;31:*.gz=01;31:*.lrz=01;31:*.lz=01;31:*.lzo=01;31:*.xz=01;31:*.zst=01;31:*.tzst=01;31:*.bz2=01;31:*.bz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tz=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.war=01;31:*.ear=01;31:*.sar=01;31:*.rar=01;31:*.alz=01;31:*.ace=01;31:*.zoo=01;31:*.cpio=01;31:*.7z=01;31:*.rz=01;31:*.cab=01;31:*.wim=01;31:*.swm=01;31:*.dwm=01;31:*.esd=01;31:*.jpg=01;35:*.jpeg=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:
+XDG_CURRENT_DESKTOP=pop:GNOME
+VTE_VERSION=6200
+GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/20b015b4_11f1_49d9_abcd_a4d7533fdb7d
+GJS_DEBUG_OUTPUT=stderr
+LESSCLOSE=/usr/bin/lesspipe %s %s
+XDG_SESSION_CLASS=user
+TERM=xterm-256color
+LC_IDENTIFICATION=en_US.UTF-8
+LESSOPEN=| /usr/bin/lesspipe %s
+USER=sfcal
+GNOME_TERMINAL_SERVICE=:1.3770
+DISPLAY=:1
+SHLVL=1
+LC_TELEPHONE=en_US.UTF-8
+QT_IM_MODULE=ibus
+LC_MEASUREMENT=en_US.UTF-8
+PAPERSIZE=letter
+XDG_RUNTIME_DIR=/run/user/1000
+LC_TIME=en_US.UTF-8
+XDG_DATA_DIRS=/usr/share/pop:/home/sfcal/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/:/var/lib/snapd/desktop
+PATH=/opt/clion/bin:/opt/clion/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin
+GDMSESSION=pop
+DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+LC_NUMERIC=en_US.UTF-8
+OLDPWD=/home/sfcal
+_=./mysh
+TEST=testing
+361shell cd   
+Executing built-in [cd]
+361shell pwd
+Executing built-in [pwd]
+/
+361shell exit
+Executing built-in [exit]
+sfcal@pop-os:~/361/361/proj2$ 
+

@@ -231,6 +231,7 @@ int main(int argc, char **argv, char **envp)
             if (suc != 0) // if no valid folder is found
             {
                 printf("Path [%s] not found\n", arg[1]);
+		fflush(stdout);
             }
         }
         else if (strcmp(arg[0], "pid") == 0) // built in command to get all processes running in the shell
