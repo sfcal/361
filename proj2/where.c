@@ -6,8 +6,8 @@ char * where(char *command, struct pathelement *p)
   int found=0;
   while (p) {         // WHERE
         sprintf(cmd, "%s/%s", p->element, command);
-        if (access(cmd, X_OK) == 0){
-            found=1;
+        if (access(cmd, X_OK) == 0){  // check to see if the file is an executable
+            found=1; // set found to 1 
             printf("[%s]\n", cmd);
         }
         p = p->next;
